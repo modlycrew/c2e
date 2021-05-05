@@ -1,0 +1,36 @@
+{
+  "name": "@modly/c2e",
+  "version": "0.0.1",
+  "description": "c2e is a Mocha/Chai & cypress.io test scaffolding helper losely aligned with TOGAF, Agile practices & other common concepts to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)",
+  "main": "c2e.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/modlycrew/c2e.git"
+  },
+  "keywords": [
+    "cypress.io",
+    "mocha",
+    "chai",
+    "test",
+    "scaffold",
+    "end",
+    "to",
+    "end",
+    "e2e",
+    "javascript"
+  ],
+  "author": "cy.walker@modlycrew.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/modlycrew/c2e/issues"
+  },
+  "homepage": "https://github.com/modlycrew/c2e#readme",
+  "dependencies": {
+    "ajv": "^8.2.0",
+    "ajv-formats": "^2.1.0",
+    "ajv-merge-patch": "^4.1.0"
+  }
+}

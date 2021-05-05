@@ -1,29 +1,22 @@
-# README #
+# c2e - Test Scaffolding
 
-This README would normally document whatever steps are necessary to get your application up and running.
+---
 
-### What is this repository for? ###
+c2e is a Mocha/Chai & cypress.io test scaffolding helper losely aligned with TOGAF, Agile & other common concepts to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+🚨 c2e is currently under 'organic' development, any use or contribution is more than welcome 🙏
 
-### How do I get set up? ###
+<u>Roadmap</u>
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+- [ ] Migrate c2e to NPM package
+- [ ] Migrate functions to use param objects
+- [ ] Establish `spec.json` structure
+- [ ] Generate `spec.js` files from `.spec.json` files
 
-### Contribution guidelines ###
+<u>Usage</u>
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+- describe(Release(releaseVersion, releaseDescription),()=>{})
+- describe(Epic(id, EpicDescription),()=>{})
+- describe(Storyboard(id, storyTitle, storyBoards = {}),()=>{})
+- describe(UserStory(id, AsA, MoSCoW, DoSomething, SoThat),()=>{})
+- it(Criteria(id, Given, When, Then, ErrorOnTODO = false),()=>{})
