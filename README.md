@@ -1,22 +1,14 @@
-# c2e - Test Scaffolding
+# C2E - Test Scaffolding
 
----
-
-c2e is a Mocha/Chai & cypress.io test scaffolding helper losely aligned with TOGAF, Agile & other common concepts to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)
+c2e is a Mocha/Chai & Cypress.io test scaffolding helper loosely aligned with TOGAF, Agile & other common concepts to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)
 
 🚨 c2e is currently under 'organic' development, any use or contribution is more than welcome 🙏
 
-<u>Roadmap</u>
+### <u>Roadmap</u>
 
-- [ ] Migrate c2e to NPM package
-- [ ] Migrate functions to use param objects
-- [ ] Establish `spec.json` structure
-- [ ] Generate `spec.js` files from `.spec.json` files
+- [ ] Define input `*.c2e.json` file structure & output folder(s) / `*.spec.js` file(s) structure
+- [ ] Generate Cypress.io ready `*.spec.js` file(s) with basic test types from `*.c2e.json` file(s)
+- [ ] Add support for object validation tests using AJV, json-schema to be loaded from \*.json file(s)
+- [ ] Update `*.c2e.json` file(s) from `*.spec.js` file(s) structure (i.e. enable 'round trip' generation)
 
-<u>Usage</u>
-
-- describe(Release(releaseVersion, releaseDescription),()=>{})
-- describe(Epic(id, EpicDescription),()=>{})
-- describe(Storyboard(id, storyTitle, storyBoards = {}),()=>{})
-- describe(UserStory(id, AsA, MoSCoW, DoSomething, SoThat),()=>{})
-- it(Criteria(id, Given, When, Then, ErrorOnTODO = false),()=>{})
+<i>[...by the Modly Community](mailto:community@modlycrew.com)</i>
