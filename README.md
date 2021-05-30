@@ -18,8 +18,8 @@ See `.\examples\example-input.c2e.json'` for more detail.
             |-> Action(s)
             \-> User Story(s)
                 |-> Action(s)
-                    \-> Criteria(s)
-                        \-> Expectation(s)
+                \-> Criteria(s)
+                    \-> Expectation(s)
 ```
 
 ## <u>Usage</u>
