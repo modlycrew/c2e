@@ -1,0 +1,141 @@
+{
+  "_version": "0.0.1",
+  "Capability A": {
+    "_type": "Capability",
+    "_description": "This is the epic _description",
+    "1st Story Board": {
+      "_type": "Storyboard",
+      "_description": "This is a test Story Board with 2 scenes",
+      "1st Story Board Action": {
+        "_type": "Action",
+        "_description": "Set varSB1 to 4 * 4",
+        "varSB1": "4 * 4"
+      },
+      "1st Scene": {
+        "_type": "Scene",
+        "_description": "This is the first scene & has 2 user stories",
+        "1st Scene Action": {
+          "_type": "Action",
+          "_description": "Set varScene1 to 'Scene level Variable'",
+          "varScene1": "'Scene level Variable'"
+        },
+        "User Story 1": {
+          "_type": "User Story",
+          "_description": "This is the first User Story with 2 criteria",
+          "1st User Story Action": {
+            "_type": "Action",
+            "_description": "Set varUserStory1 to 'User Story level Variable'",
+            "varUserStory1": "'User Story level Variable'"
+          },
+          "1st Criteria": {
+            "_type": "Criteria",
+            "Given": "a certain scenario",
+            "When": "a certain action is performed",
+            "Then": {
+              "1st Expectation - check varSB1": {
+                "_type": "Expectation"
+              },
+              "2nd Expectation": {
+                "_type": "Expectation"
+              }
+            }
+          },
+          "2nd Criteria": {
+            "_type": "Criteria",
+            "Given": "the above Actions have been run successfully",
+            "When": "all variables have been set",
+            "Then": {
+              "Check varSB1 value": {
+                "_type": "Expectation",
+                "_expect": "varSB1",
+                "to equal": 16
+              },
+              "Check varScene1 value": {
+                "_type": "Expectation",
+                "_expect": "varScene1",
+                "to equal": "'Scene level Variable'"
+              },
+              "Check varUserStory1 value": {
+                "_type": "Expectation",
+                "_expect": "varUserStory1",
+                "to equal": "'User Story level Variable'"
+              }
+            }
+          }
+        },
+        "User Story 2": {
+          "_type": "User Story",
+          "_description": "This is the second User Story with 1 criteria",
+          "1st Criteria": {
+            "_type": "Criteria",
+            "ref": "C1",
+            "Given": "a certain scenario",
+            "When": "a certain action is performed",
+            "Then": {
+              "1st Expectation": {
+                "_type": "Expectation"
+              },
+              "2nd Expectation": {
+                "_type": "Expectation"
+              }
+            }
+          }
+        }
+      },
+      "2nd Scene": {
+        "_type": "Scene",
+        "_description": "This is the second scene & has 2 user stories",
+        "User Story 1": {
+          "_type": "User Story",
+          "_description": "This is the first User Story with 2 criteria",
+          "1st Criteria": {
+            "_type": "Criteria",
+            "ref": "C1",
+            "Given": "a certain scenario",
+            "When": "a certain action is performed",
+            "Then": {
+              "1st Expectation": {
+                "_type": "Expectation"
+              },
+              "2nd Expectation": {
+                "_type": "Expectation"
+              }
+            }
+          },
+          "2nd Criteria": {
+            "_type": "Criteria",
+            "ref": "C2",
+            "Given": "a certain scenario",
+            "When": "a certain action is performed",
+            "Then": {
+              "1st Expectation": {
+                "_type": "Expectation"
+              },
+              "2nd Expectation": {
+                "_type": "Expectation"
+              }
+            }
+          }
+        },
+        "User Story 2": {
+          "_type": "User Story",
+          "_description": "This is the second User Story",
+          "1st Criteria": {
+            "_type": "Criteria",
+            "ref": "C1",
+            "Given": "a certain scenario",
+            "When": "a certain action is performed",
+            "Then": {
+              "1st Expectation": {
+                "_type": "Expectation"
+              },
+              "2nd Expectation": {
+                "_type": "Expectation"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
