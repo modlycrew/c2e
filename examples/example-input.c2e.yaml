@@ -1,0 +1,123 @@
+version: 0.0.1
+"Capability A":
+  type: capability
+  description: "This is the capability _description"
+  "1st Story Board":
+    type: storyboard
+    description: "This is a test Story Board with 2 scenes"
+    "1st Story Board Action":
+      type: actions
+      "Simple variable assignment e.g. varSB1 = 4 * 4": |
+        //js
+        varSB1 = 4 * 4;
+        //!js
+      "Import modules":  |
+        //js
+        import * as ExampleImports from '../../examples/example-imports.js';
+        //!js
+      "Load Schema": |
+        //js
+          schema = {
+              $id: "test",
+              type: "object",
+              properties: {
+                  foo: { type: "integer" },
+                  bar: { type: "string" }
+              },
+              required: ["foo"],
+              additionalProperties: false
+          }
+          ajv.addSchema(schema, schema.$id);
+        //!js
+    "1st Scene":
+      type: scene
+      description: "This is the first scene & has 2 user stories"
+      "1st Scene Action":
+        type: actions
+        "Set varScene1 to 'Scene level Variable'": |
+          //js
+          varScene1 = 'Scene level Variable';
+          //!js
+      "User Story 1":
+        type: user story
+        description: "This is the first User Story with 2 criteria"
+        "1st User Story Action":
+          type: actions
+          "Set varUserStory1 to .standardExample()":  |
+              //js
+              varUserStory1 = ExampleImports.standardExample();
+              //!js
+          "Set varUserStory2 to .asyncExample()'":  |
+              //js
+              varUserStory2 = await ExampleImports.asyncExample('Provided Import Async Example Value');
+              //!js
+          "Set test Data Object": |
+            //js
+              data = { foo: 1, bar: "abc", baz: null}
+            //!js
+        "1st Criteria - Given the above Actions have been run successfully, When all variables have been set, Then...":
+          type: criteria
+          expectations:
+            "Check varSB1 value": |
+              //js
+              expect(varSB1).to.equal(16);
+              //!js
+            "Check varScene1 value": |
+              //js
+              expect(varScene1).to.equal('Scene level Variable');
+              //!js
+            "Check varUserStory1 value": |
+              //js
+              expect(varUserStory1).to.equal('Default Import Example Value');
+              //!js
+            "Check varUserStory2 value": |
+              //js
+              expect(varUserStory2).to.equal('Provided Import Async Example Value');
+              //!js
+            "Validate Object": |
+              //js
+              validateObject(data, schema);
+              //!js
+      "User Story 2":
+        type: user story
+        description: "This is the second User Story with 1 criteria"
+        "1st Criteria - Given a certain scenario, When a certain action is performed, Then":
+          type: criteria
+          expectations:
+            "1st Expectation - write to console log...": |
+              //js
+              console.log('Example...','User Story 2 - 1st Expectation');
+              //!js
+            "2nd Expectation - write to cypress log...": |
+              //js
+              cy.log('Example...','User Story 2 - 2nd Expectation');
+              //!js
+        "2nd Criteria - Given a certain scenario, When a certain action is performed, Then...":
+          type: criteria
+          expectations:
+            "1st Expectation - check varSB1":
+            "2nd Expectation":
+    "2nd Scene":
+      type: scene
+      description: "This is the second scene & has 2 user stories"
+      "User Story 1":
+        type: user story
+        description: "This is the first User Story with 2 criteria"
+        "1st Criteria - Given a certain scenario, When a certain action is performed, Then":
+          type: criteria
+          expectations:
+            "1st Expectation":
+            "2nd Expectation":
+        "2nd Criteria - Given a certain scenario, When a certain action is performed, Then":
+          type: criteria
+          expectations:
+            "1st Expectation":
+            "2nd Expectation":
+      "User Story 2":
+        type: user story
+        description: "This is the second User Story"
+        "1st Criteria - Given a certain scenario, When a certain action is performed, Then":
+          type: criteria
+          expectations:
+            "1st Expectation":
+            "2nd Expectation":
