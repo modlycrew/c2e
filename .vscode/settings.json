@@ -1,0 +1,44 @@
+{
+    "git.ignoreLimitWarning": true,
+    "todo-tree.general.tags": [
+        "TODO:",
+        "WIP:",
+        "NEXT:",
+        "@todo",
+        "NOTE:",
+        "BUG:"
+    ],
+    "actionTypes": "TODO,FIXME,HACK,BUG,UNDONE,@todo",
+    "enabledCodeActions": true,
+    "name": "Cy Walker",
+    "cypressHelper.commandForOpen": "npx cypress open",
+    "cypressHelper.cucumberTagsAutocomplete": {
+        "enable": false,
+        "allurePlugin": false,
+        "tags": [
+            "focus"
+        ]
+    },
+    "githubIssues.createIssueTriggers": [
+        "FIX:",
+        "IDEA:",
+        "IMPROVE:",
+        "USERSTORY:",
+        "RELEASE:"
+    ],
+    "editor.quickSuggestionsDelay": 1000,
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules",
+        "**/cypress",
+        "**/.vscode"
+    ],
+    "todo-tree.tree.scanMode": "workspace",
+    "todo-tree.filtering.useBuiltInExcludes": "file and search excludes",
+    "cSpell.words": [
+        "GUNDB"
+    ],
+    "cSpell.ignoreWords": [
+        "jsoncstyleguide",
+        "styleguide"
+    ]
+}
