@@ -1,6 +1,6 @@
 {
   "name": "@modlycrew/c2e",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "c2e is a Mocha/Chai & Cypress.io test scaffolding helper to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)",
   "main": "c2e.js",
   "bin": {
@@ -32,16 +32,17 @@
   },
   "homepage": "https://github.com/modlycrew/c2e#readme",
   "dependencies": {
-    "ajv": "^8.2.0",
+    "ajv": "^8.6.0",
     "ajv-formats": "^2.1.0",
     "ajv-merge-patch": "^4.1.0",
-    "ascii-art": "^2.7.0",
+    "ascii-art": "^2.8.0",
     "ascii-art-font": "^1.0.2",
     "chalk": "^4.1.1",
     "clear": "^0.1.0",
     "clui": "^0.3.6",
     "configstore": "^6.0.0",
     "figlet": "^1.5.0",
+    "js-yaml": "^4.1.0",
     "minimist": "^1.2.5"
   }
 }
