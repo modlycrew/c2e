@@ -79,34 +79,34 @@ function generateOutput(input, type = "") {
     if (input) {
         let array = Object.entries(input).map(([key, value]) => {
             if (GROUPING.includes(key)) {
-                // output += '\n';
-                // output += 'describe("' + key + ': ",()=>{';
+                output += '\n';
+                output += 'describe("' + key.charAt(0).toUpperCase() + key.slice(1) + ': ",()=>{';
                 if (value) {
                     Object.entries(value).map((grouping) => {
                         output += generateGrouping(key, grouping[0], grouping[1]);
                     });
                 };
-                // output += '});';
+                output += '});';
             };
             if (ACTIONS.includes(key)) {
-                // output += '\n';
-                // output += 'describe("' + key + ': ",()=>{';
+                output += '\n';
+                output += 'describe("' + key.charAt(0).toUpperCase() + key.slice(1) + ': ",()=>{';
                 if (value) {
                     Object.entries(value).map((action) => {
                         output = generateAction(action[0], action[1]);
                     });
                 };
-                // output += '});';
+                output += '});';
             };
             if (EVALUATIONS.includes(key)) {
-                // output += '\n';
-                // output += 'describe("' + key + ': ",()=>{';
+                output += '\n';
+                output += 'describe("' + key.charAt(0).toUpperCase() + key.slice(1) + ': ",()=>{';
                 if (value) {
                     Object.entries(value).map((expectation) => {
                         output += generateExpectations(expectation[0], expectation[1]);
                     });
                 };
-                // output += '});';
+                output += '});';
             };
         });
     }
