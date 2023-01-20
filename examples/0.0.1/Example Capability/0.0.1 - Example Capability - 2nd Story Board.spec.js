@@ -21,17 +21,22 @@ let varUserStory1;
 let varUserStory2;
 let data;
 
-describe("🏢 0.0.1 - Example Capability - 2nd Story Board",()=>{it('🔧 Simple variable assignment e.g. varSB1 = 4 * 4',()=>{
+describe("🏢 0.0.1 - Example Capability - 2nd Story Board",()=>{
+describe("Actions: ",()=>{it('🔧 Simple variable assignment e.g. varSB1 = 4 * 4',()=>{
 varSB1 = 4 * 4;cy.log('varSB1 = ', JSON.stringify(varSB1));
 });it('🔧 Import modules',()=>{
 cy.log('import * as ExampleImports from "../../examples/example-imports.js" hoisted to Imports');
 });it('🔧 Load Schema',()=>{
   schema = {      $id: "test",      type: "object",      properties: {          foo: { type: "integer" },          bar: { type: "string" }      },      required: ["foo"],      additionalProperties: false  }  ajv.addSchema(schema, schema.$id);cy.log('  schema = ', JSON.stringify(  schema));
-});
-describe("📃1st Scene",()=>{it('🔧 Set varScene1 to "Scene level Variable"',()=>{
+});});
+describe("Scenes: ",()=>{
+describe("📃1st Scene",()=>{
+describe("Actions: ",()=>{it('🔧 Set varScene1 to "Scene level Variable"',()=>{
 varScene1 = 'Scene level Variable';cy.log('varScene1 = ', JSON.stringify(varScene1));
-});
-describe("👩‍🏭User Story 1",()=>{it('🔧 Set varUserStory1 to .standardExample()',()=>{
+});});
+describe("User stories: ",()=>{
+describe("👩‍🏭User Story 1",()=>{
+describe("Actions: ",()=>{it('🔧 Set varUserStory1 to .standardExample()',()=>{
 varUserStory1 = ExampleImports.standardExample();cy.log('varUserStory1 = ', JSON.stringify(varUserStory1));
 });it('🔧 Set varUserStory2 to .asyncExample()"',()=>{
 cy.log('Set varUserStory2 to .asyncExample()"');
@@ -46,7 +51,8 @@ cy.wrap(null).then(() => {
 });
 });it('🔧 Set test Data Object',()=>{
   data = { foo: 1, bar: "abc", baz: null}cy.log('  data = ', JSON.stringify(  data));
-});
+});});
+describe("Expectations: ",()=>{
 it("🚧 Check varSB1 value",()=>{expect(varSB1,"Check varSB1 value").to.equal(16);
 });
 it("🚧 Check varScene1 value",()=>{expect(varScene1,"Check varScene1 value").to.equal('Scene level Variable');
@@ -56,20 +62,24 @@ it("🚧 Check varUserStory1 value",()=>{expect(varUserStory1,"Check varUserStor
 it("🚧 Check varUserStory2 value",()=>{expect(varUserStory2,"Check varUserStory2 value").to.equal('Provided Import Async Example Value');
 });
 it("🚧 Validate Object",()=>{validateObject(data, schema);
-});});
+});});});
 describe("👩‍🏭User Story 2",()=>{
+describe("Expectations: ",()=>{
 it("🚧 1st Expectation - write to console log...",()=>{console.log('Example...','User Story 2 - 1st Expectation');
 });
 it("🚧 2nd Expectation - write to cypress log...",()=>{cy.log('Example...','User Story 2 - 2nd Expectation');
 });
 it("🚧 1st Expectation - check varSB1",()=>{});
-it("🚧 2nd Expectation",()=>{});});});
+it("🚧 2nd Expectation",()=>{});});});});});
 describe("📃2nd Scene",()=>{
+describe("User stories: ",()=>{
 describe("👩‍🏭User Story 1",()=>{
+describe("Expectations: ",()=>{
 it("🚧 1st Expectation",()=>{});
 it("🚧 2nd Expectation",()=>{});
 it("🚧 3rd Expectation",()=>{});
-it("🚧 4th Expectation",()=>{});});
+it("🚧 4th Expectation",()=>{});});});
 describe("👩‍🏭User Story 2",()=>{
+describe("Expectations: ",()=>{
 it("🚧 1st Expectation",()=>{});
-it("🚧 2nd Expectation",()=>{});});});});
+it("🚧 2nd Expectation",()=>{});});});});});});});
