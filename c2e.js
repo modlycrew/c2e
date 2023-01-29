@@ -144,9 +144,9 @@ function generateOutput(input, type = "") {
                     if (awaitVariable) {
                         outputBody += '.then((obj) => {\n';
                         outputBody += '        ' + actionVariable + ' = obj;\n';
-                        outputBody += '        cy.log("' + actionVariable + ' => " + JSON.stringify(' + actionVariable + '));\n';
                         outputBody += '    });\n';
                         outputBody += '});\n';
+                        outputBody += 'cy.log("' + actionVariable + ' => " + JSON.stringify(' + actionVariable + '));\n';
                     }
                 } else {
                     outputBody += actionValue;
