@@ -6,13 +6,17 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
     scenes: #Lists the Scenes in the Storyboard. Scenes are used to provide additional test file structure and are optional. Usually specified by the Product Owner.
       "Storyboard setup":
         actions:
-          "Simple variable assignment e.g. varSB1 = 4 * 4": |
+          "Simple variable assignment e.g.  varSB1 = 4 * 4": |
             //js
             varSB1 = 4 * 4;
             //!js
           "Import modules": |
             //js
             import * as ExampleImports from '../../example-imports.js';
+            //!js
+          "Import other modules": |
+            //js
+            import * as SecondImport from '../../example-imports.js';
             //!js
           "Load Schema": |
             //js
@@ -76,7 +80,7 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
                 //js
                 console.log('Example...','User Story 2 - 1st Expectation');
                 //!js
-              "2nd Expectation - write to cypress log...": |
+              "2nd Expectation - write to cypress log (or console.log if )...": |
                 //js
                 cy.log('Example...','User Story 2 - 2nd Expectation');
                 //!js
@@ -102,7 +106,7 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
         //!js
       "Import modules": |
         //js
-        import * as ExampleImports from '../../examples/example-imports.js';
+        import * as ExampleImports from '../../example-imports.js';
         //!js
       "Load Schema": |
         //js
@@ -114,8 +118,8 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
                   bar: { type: "string" }
               },
               required: ["foo"],
-              additionalProperties: false
-          }
+              additionalProperties: true
+          };
           ajv.addSchema(schema, schema.$id);
         //!js
     scenes:
@@ -138,7 +142,7 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
                 //!js
               "Set test Data Object": |
                 //js
-                  data = { foo: 1, bar: "abc", baz: null}
+                  data = { foo: 1, bar: "abc", baz: null};
                 //!js
             expectations:
               "Check varSB1 value": |

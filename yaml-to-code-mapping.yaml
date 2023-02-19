@@ -1,0 +1,39 @@
+---
+version: "0.0.1"
+capability: "Example Capability"
+storyboards: #TYPE=headers
+  "1st Story Board": #Creates file => /c2e/{$version}/{$capability}/{$version} - {$capability} - {$storyboard}.spec.js file.
+    #Creates headers & AJV helpers
+    #Creates hoisted imports before GROUP
+    #TYPE=GROUP Creates describe(GROUP)
+    #Creates hoisted variables inside GROUP
+    scenes: #TYPE=GROUP(optional) Creates describe(GROUP)
+      "1st Scene": #TYPE=GROUP(optional) Creates describe(GROUP)
+        actions: #TYPE=GROUP(optional) Creates describe(GROUP)
+          "Assign Action": | #TYPE=ACTION(optional)
+            //js                                            #Strip JS section comments line
+            varAssign = 4 * 4;                              #Hoists unique variable
+                                                            #Creates code line(s)
+            //!js                                           #Strip JS section comments line
+          "Async Action": | #TYPE=ACTION(optional)
+            //js                                            #Strip JS section comments line
+            varAwait = await fAsync();                      #Hoists variable
+                                                            #Creates Cypress.io or Playwright async code line(s) from template
+            //!js                                           #Strip JS section comments line
+          "Import Action": | #TYPE=ACTION(optional)
+            //js                                            #Strip JS section comments line
+            import * as I from 'm';                         #Hoists unique import
+            //!js                                           #Strip JS section comments line
+          "Other Action": | #TYPE=ACTION(optional)
+            //js                                            #Strip JS section comments line
+            f(p);                                           #Creates code line(s)
+            //!js                                           #Strip JS section comments line
+        expectations:
+          "Standard Test": | #TYPE=EXPECTATION(optional)
+            //js                                            #Strip JS section comments line
+            expect(x).to.equal(y);                          #Creates code line(s)
+            //!js                                           #Strip JS section comments line
+          "Object Test": | #TYPE=EXPECTATION(optional)
+            //js                                            #Strip JS section comments line
+            validate(x,schema.$id);                         #Creates code line(s)
+            //!js                                           #Strip JS section comments line
