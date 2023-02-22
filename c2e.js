@@ -34,7 +34,7 @@ function printBanner(TARGET_RUNNER) {
     console.clear();
     console.log(
         chalk.greenBright(figlet.textSync('C -2-> E', { font: "ANSI Shadow", })),
-        chalk.bold.italic.gray(' by the Modly community v0.0.4')
+        chalk.bold.italic.gray(' by the Modly community v0.0.4b')
     );
     console.log(chalk.green('C2E generates *.spec.js test files from *.c2e.yaml files located in the local folder for use with Playwright or Cypress.'));
     console.log(chalk.bold.redBright('🚨 WARNING: C2E currently overwrites *.spec.js files without warning! 🚨 '));
@@ -109,44 +109,52 @@ function cleanCode(codeBlock) {
     return cleanedCode;
 };
 function getImports(storyboardObject) {
-    let outputImports = [];
-    if (storyboardObject) {
-        Object.entries(storyboardObject).forEach(([key, value]) => {
-            if ((typeof value) == 'string') {
-                value = cleanCode(value);
-                if ((value.split('\n')[0].split(' ')[0] === 'import') || (value.split('\n')[0].split('.')[0] === 'ajv')) { //handle import statements
-                    outputImports.push(`${value.substring(0, value.lastIndexOf("\n"))};\n`);
+    let outputImports = new Set(); //to avoid duplicate imports
+    crawlImports(storyboardObject);
+    return [...outputImports].join(``);
+
+    function crawlImports(storyboardObject) {
+        if (storyboardObject) {
+            Object.entries(storyboardObject).forEach(([key, value]) => {
+                if ((typeof value) == 'string') {
+                    value = cleanCode(value);
+                    if ((value.split('\n')[0].split(' ')[0] === 'import') || (value.split('\n')[0].split('.')[0] === 'ajv')) { //handle import statements
+                        outputImports.add(`${value.substring(0, value.lastIndexOf("\n"))};\n`);
+                    };
+                } else {
+                    // outputImports.add(getImports(value));
+                    crawlImports(value);
                 };
-            } else {
-                outputImports.push(getImports(value));
-            };
-        });
-    };
-    return outputImports.join(``);
+            });
+        };
+    }
 };
 function getVariables(storyboardObject) {
-    let outputVariables = [];
-    if (storyboardObject) {
-        Object.entries(storyboardObject).forEach(([key, value]) => {
-            if ((typeof value) == 'string') {
-                value = cleanCode(value);
-                if (
-                    !(value.split('\n')[0].split(' ')[0] === 'import') &&
-                    !(value.split('\n')[0].split('.')[0] === 'ajv') &&
-                    !(value.split('\n')[0].split('.')[0] === 'cy') &&
-                    !(value.split('\n')[0].split('.')[0] === 'document') &&
-                    !(value.split('\n')[0].split('.')[0] === 'console') &&
-                    !(value.split('\n')[0].split('(')[0] === 'expect') &&
-                    !(value.split('\n')[0].split('(')[0] === 'validateObject')
-                ) {
-                    outputVariables.push(`let ${value.split('\n')[0].split(' =')[0].trim()};\n`);
-                }
-            } else {
-                outputVariables.push(getVariables(value));
-            };
-        });
-    };
-    return outputVariables.join(``);
+    let outputVariables = new Set(); //to avoid duplicate declarations
+    crawlVariables(storyboardObject);
+    return [...outputVariables].join(``);
+
+    function crawlVariables(storyboardObject) {
+        if (storyboardObject) {
+            Object.entries(storyboardObject).forEach(([key, value]) => {
+                if ((typeof value) == 'string') {
+                    value = cleanCode(value);
+                    if (!(value.split('\n')[0].split(' ')[0] === 'import') &&
+                        !(value.split('\n')[0].split('.')[0] === 'ajv') &&
+                        !(value.split('\n')[0].split('.')[0] === 'cy') &&
+                        !(value.split('\n')[0].split('.')[0] === 'document') &&
+                        !(value.split('\n')[0].split('.')[0] === 'console') &&
+                        !(value.split('\n')[0].split('(')[0] === 'expect') &&
+                        !(value.split('\n')[0].split('(')[0] === 'validateObject')) {
+                        outputVariables.add(`let ${value.split('\n')[0].split(' =')[0].trim()};\n`);
+                    }
+                } else {
+                    // outputVariables.add(getVariables(value));
+                    crawlVariables(value);
+                };
+            });
+        };
+    }
 };
 function getCode(storyboardObject) {
     let outputCode = [];
@@ -196,7 +204,7 @@ function getCodeBlock(key, value) {
                 if ((codeBlock.split('\n')[0].split(' ')[0] === 'import') || (codeBlock.split('\n')[0].split('.')[0] === 'ajv')) { //handle import statements
                     outputCodeBlock.push(`
     ${TEST}("🔧 ${key}", ${CALLBACK}{
-        ${LOG}("${codeBlock.replace(`\"`, `\'`).replace(`\n`, ``)} hoisted to Imports");
+        ${LOG}(\`${codeBlock.replace(`\"`, `\'`).replace(`\n`, ``)} hoisted to Imports\`);
     });`);
                 } else if ((codeBlock.split('\n')[0].split('.')[0] === 'cy') || (codeBlock.split('\n')[0].split('.')[0] === 'document') || (codeBlock.split('\n')[0].split('.')[0] === 'console')) {  //handle utility code blocks
                     outputCodeBlock.push(`

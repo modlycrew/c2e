@@ -102,7 +102,13 @@ test.describe("🏢 0.0.1 - Example Capability - 1st Story Board ",()=>{
     }); 
     });
     test.describe("User Story 2: ", async () => {
-            test.describe("🚧 expectations", async () => {
+            test.describe("🔧 actions", async () => {
+    test("🔧 Update test Data Object", async () => {
+          data = { foo: 2, bar: "cba"}
+        console.log("  data => " + JSON.stringify(  data))
+    });
+    }); 
+    test.describe("🚧 expectations", async () => {
     test("🔧 1st Expectation - write to console log...", async () => {
         console.log('Example...','User Story 2 - 1st Expectation')
     });

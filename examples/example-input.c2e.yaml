@@ -75,12 +75,18 @@ storyboards: #Lists the Storyboards representing end to end tests. Each Capabili
                 validateObject(data, schema);
                 //!js
           "User Story 2":
+            actions:
+              "Update test Data Object": |
+                //js
+                  data = { foo: 2, bar: "cba"};
+                //!js
             expectations:
               "1st Expectation - write to console log...": |
                 //js
                 console.log('Example...','User Story 2 - 1st Expectation');
                 //!js
-              "2nd Expectation - write to cypress log (or console.log if )...": |
+              "2nd Expectation - write to cypress log (or console.log if )...":
+                |
                 //js
                 cy.log('Example...','User Story 2 - 2nd Expectation');
                 //!js
