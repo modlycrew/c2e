@@ -40,5 +40,6 @@
     "cSpell.ignoreWords": [
         "jsoncstyleguide",
         "styleguide"
-    ]
+    ],
+    "cmake.configureOnOpen": false
 }

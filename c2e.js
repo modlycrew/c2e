@@ -82,7 +82,8 @@ function validateObject(objectToValidate, schema) {
 }`;
     const playwrightHelpers = `// @js-check
 import { test } from '@playwright/test';
-import { expect } from 'chai';
+import { expect, config } from 'chai';
+config.truncateThreshold = 0;
 `;
     let outputFolder = "./" + version + "/" + capability;
     if (!fs.existsSync(outputFolder)) { fs.mkdirSync(outputFolder, { recursive: true }); };
