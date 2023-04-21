@@ -34,7 +34,7 @@ function printBanner(TARGET_RUNNER) {
     console.clear();
     console.log(
         chalk.greenBright(figlet.textSync('C -2-> E', { font: "ANSI Shadow", })),
-        chalk.bold.italic.gray(' by the Modly community v0.0.4b')
+        chalk.bold.italic.gray(' by the Modly community v0.0.4d')
     );
     console.log(chalk.green('C2E generates *.spec.js test files from *.c2e.yaml files located in the local folder for use with Playwright or Cypress.'));
     console.log(chalk.bold.redBright('🚨 WARNING: C2E currently overwrites *.spec.js files without warning! 🚨 '));
@@ -78,7 +78,9 @@ addFormats(ajv);
 require("ajv-merge-patch")(ajv);
 ajv.addKeyword("$version");
 function validateObject(objectToValidate, schema) {
-    expect(objectToValidate, "Schema => " + JSON.stringify(schema)).to.equal(ajv.validate(schema.$id, objectToValidate) ? objectToValidate : ajv.errors.filter(e => e.keyword != "$merge"));
+    const testOutcome = ajv.validate(schema.$id, objectToValidate);
+    expect(objectToValidate).to.equal(testOutcome ? objectToValidate : ajv.errors.filter(e => e.keyword != "$merge"));
+    return JSON.stringify(objectToValidate) + (testOutcome ? ' complies with ' : ' DOES NOT COMPLY WITH ') + JSON.stringify(schema);
 }`;
     const playwrightHelpers = `// @js-check
 import { test } from '@playwright/test';
@@ -224,7 +226,7 @@ function getCodeBlock(key, value) {
             )}))${awaitVariable ? `.then((obj) => { ${actionVariable} = obj })` : ``}
         })` : `
         ${codeBlock}`}
-        ${LOG}("${actionVariable} => " + JSON.stringify(${actionVariable}))
+        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(" + actionVariable + ")"})
     });`);
                 }
             }
