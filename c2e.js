@@ -66,7 +66,7 @@ function processFile(fileName) {
     Object.entries(storyboards).map(([storyboardName, storyboardObject]) => {
         processStoryboard(version, capability, storyboardName, storyboardObject);
     });
-    console.log('Processing Complete for => ', fileName);
+    console.log('Processing Complete for => ', fileName, ' at ', new Date().toLocaleTimeString());
 };
 function processStoryboard(version, capability, storyboardName, storyboardObject) {
     const avjHelpers = `
