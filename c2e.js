@@ -7,9 +7,10 @@ const YAML = require('js-yaml');
 
 // Command line options
 const argv = require('yargs/yargs')(process.argv.slice(2))
-    .usage("Usage: -r <runner> -w")
+    .usage("Usage: -r <runner> -w <watch files> -g <grouping>")
     .option("r", { alias: "runner", describe: "Target Test Runner", type: "string", choices: ['playwright', 'cypress'], demandOption: false, default: "playwright" })
     .option("w", { alias: "watchFiles", describe: "Process .c2e.yaml files when added or updated", type: "boolean", demandOption: false, default: false })
+    .option("g", { alias: "grouping", describe: "Show grouping headings", type: "boolean", demandOption: false, default: false })
     .argv;
 
 const ROOT = '.';
@@ -19,6 +20,7 @@ const ACTIONS = ['actions'];
 const EVALUATIONS = ['expectations'];
 const WATCH_FILES = argv.watchFiles;
 const TARGET_RUNNER = argv.runner;
+const SHOW_GROUP_HEADERS = argv.grouping;
 const GROUP = { 'cypress': 'describe', 'playwright': 'test.describe' }[TARGET_RUNNER];
 const TEST = { 'cypress': 'it', 'playwright': 'test' }[TARGET_RUNNER];
 const LOG = { 'cypress': 'cy.log', 'playwright': 'console.log' }[TARGET_RUNNER];
@@ -34,7 +36,7 @@ function printBanner(TARGET_RUNNER) {
     console.clear();
     console.log(
         chalk.greenBright(figlet.textSync('C -2-> E', { font: "ANSI Shadow", })),
-        chalk.bold.italic.gray(' by the Modly community v0.0.4d')
+        chalk.bold.italic.gray(' by the Modly community v0.0.4e')
     );
     console.log(chalk.green('C2E generates *.spec.js test files from *.c2e.yaml files located in the local folder for use with Playwright or Cypress.'));
     console.log(chalk.bold.redBright('🚨 WARNING: C2E currently overwrites *.spec.js files without warning! 🚨 '));
@@ -101,7 +103,7 @@ ${getImports(storyboardObject)}
 ${getVariables(storyboardObject)}
 // Tests
 ${GROUP}("🏢 ${version} - ${capability} - ${storyboardName} ",()=>{
-     ${getCode(storyboardObject)}
+     ${SHOW_GROUP_HEADERS ? getCode(storyboardObject) : getCodeWithoutGrouping(storyboardObject)}
 });`;
     console.log(`Writing => ${fileName}`);
     fs.writeFileSync(outputFolder + "/" + fileName, fileContent);
@@ -159,28 +161,27 @@ function getVariables(storyboardObject) {
         };
     }
 };
-function getCode(storyboardObject) {
+function getCode(storyboardObject, prevKey) {
     let outputCode = [];
     if (storyboardObject) {
         Object.entries(storyboardObject).forEach(([key, value]) => {
+            let icon = { "expectations": "🚧", "actions": "🔧", "storyboards": "📑", "scenes": "📃", "user stories": "👩‍🏭", }[key];
             if (ACTIONS.includes(key) || EVALUATIONS.includes(key)) { // Load Code Block
-                let icon = { "expectations": "🚧", "actions": "🔧" }[key];
                 outputCode.push(`
     ${GROUP}("${icon} ${key}", ${CALLBACK}{
         ${getCodeBlock(key, value)}
     }); `
                 );
             } else if (GROUPING.includes(key)) { // Load next Grouping
-                let icon = { "storyboards": "📑", "scenes": "📃", "user stories": "👩‍🏭", }[key];
                 outputCode.push(`
     ${GROUP}("${icon} ${key}", ${CALLBACK}{
-        ${getCode(value)}
+        ${getCode(value, key)}
     });`
                 );
             } else {
                 outputCode.push(`
     ${GROUP}("${key.charAt(0).toUpperCase() + key.slice(1)}: ", ${CALLBACK}{
-        ${getCode(value)}
+        ${getCode(value, key)}
     });`
                 );
             }
@@ -233,4 +234,99 @@ function getCodeBlock(key, value) {
         });
     };
     return outputCodeBlock.join(``);
+};
+function getCodeWithoutGrouping(storyboardObject) {
+    let outputCode = [];
+    if (storyboardObject) {
+        Object.entries(storyboardObject).forEach(([key, value]) => {
+            if (ACTIONS.includes(key) || EVALUATIONS.includes(key)) { // Load Code Block
+                outputCode.push(`
+        ${getCodeBlockWithoutGrouping(key, value)}
+    `
+                );
+            } else if (GROUPING.includes(key)) { // Load next Grouping
+                outputCode.push(`
+        ${getCodeWithoutGrouping(value)}
+    `
+                );
+            } else {
+                outputCode.push(`
+        ${getCodeWithoutGrouping(value)}
+    `
+                );
+            }
+        });
+    };
+    return outputCode.join(``).replace(/^\s*[\r\n]/gm, '');
+};
+function getCodeBlockWithoutGrouping(key, value) {
+    let outputCodeBlock = [];
+    if (value) {
+        Object.entries(value).forEach(([key, value]) => {
+            let codeBlock = (value) ? cleanCode(value) : ``;
+            if (!value) {
+                outputCodeBlock.push(`
+    ${TEST}("🚧 ${key}", ${CALLBACK}{
+        ${LOG}("${key.charAt(0).toUpperCase() + key.slice(1, 0)} code pending");
+    });`); //Provide comment for empty code block
+            } else if ((codeBlock.split('\n')[0].split('(')[0] === 'expect')) {
+                outputCodeBlock.push(`
+    ${TEST}("🚧 ${key}", ${CALLBACK}{
+        ${codeBlock.replace(').', `,"${value[0]}").`)}
+    });`); //Hydrate test with code description
+            } else { //if (codeType == 'actions') {
+                if ((codeBlock.split('\n')[0].split(' ')[0] === 'import') || (codeBlock.split('\n')[0].split('.')[0] === 'ajv')) { //handle import statements
+                    outputCodeBlock.push(`
+    ${TEST}("🔧 ${key}", ${CALLBACK}{
+        ${LOG}(\`${codeBlock.replace(`\"`, `\'`).replace(`\n`, ``)} hoisted to Imports\`);
+    });`);
+                } else if ((codeBlock.split('\n')[0].split('.')[0] === 'cy') || (codeBlock.split('\n')[0].split('.')[0] === 'document') || (codeBlock.split('\n')[0].split('.')[0] === 'console')) {  //handle utility code blocks
+                    outputCodeBlock.push(`
+    ${TEST}("🔧 ${key}", ${CALLBACK}{
+        ${codeBlock}
+    });`);
+                } else { //handle variable assignment & await code blocks
+                    const awaitVariable = Boolean((codeBlock.split('\n')[0].split(' ')[0] != "await")); // True if promise result is to be assigned to a variable; False if simply an await call is to be executed
+                    const actionVariable = codeBlock.split('\n')[0].split(' =')[0];
+                    outputCodeBlock.push(`
+    ${TEST}("🔧 ${key}", ${CALLBACK}{
+        ${(codeBlock.includes(" = await ") && (TARGET_RUNNER == 'cypress')) ? `
+        cy.wrap(null).then(() => {
+            return (new Cypress.Promise((resolve, reject) => { resolve(
+                ${awaitVariable ? codeBlock.split(' = await ')[1] : codeBlock.split('await ')[1]}
+            )}))${awaitVariable ? `.then((obj) => { ${actionVariable} = obj })` : ``}
+        })` : `
+        ${codeBlock}`}
+        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(" + actionVariable + ")"})
+    });`);
+                }
+            }
+        });
+    };
+    return outputCodeBlock.join(``);
+};
+function getCodeWithoutGrouping(storyboardObject) {
+    let outputCode = [];
+    if (storyboardObject) {
+        Object.entries(storyboardObject).forEach(([key, value]) => {
+            if (ACTIONS.includes(key) || EVALUATIONS.includes(key)) { // Load Code Block
+                outputCode.push(`
+        ${getCodeBlockWithoutGrouping(key, value)}
+    `
+                );
+            } else if (GROUPING.includes(key)) { // Load next Grouping
+                outputCode.push(`
+        ${getCodeWithoutGrouping(value)}
+    `
+                );
+            } else {
+                outputCode.push(`
+    ${GROUP}("${key.charAt(0).toUpperCase() + key.slice(1)}: ", ${CALLBACK}{
+        ${getCodeWithoutGrouping(value)}
+    });`
+                );
+            }
+        });
+    };
+    return outputCode.join(``).replace(/^\s*[\r\n]/gm, '');
 };
