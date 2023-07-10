@@ -83,7 +83,7 @@ ajv.addKeyword("$version");
 function validateObject(objectToValidate, schema) {
     const testOutcome = ajv.validate(schema.$id, objectToValidate);
     expect(objectToValidate).to.equal(testOutcome ? objectToValidate : ajv.errors.filter(e => e.keyword != "$merge"));
-    return JSON.stringify(handleCircularJSON(objectToValidate)) + (testOutcome ? ' complies with ' : ' DOES NOT COMPLY WITH ') + JSON.stringify(handleCircularJSON(schema));
+    return JSON.stringify(handleCircularJSON(objectToValidate),null,2) + (testOutcome ? ' complies with ' : ' DOES NOT COMPLY WITH ') + JSON.stringify(handleCircularJSON(schema),null,2);
 }
 function handleCircularJSON(object) {
     if (object instanceof Object) {
@@ -236,7 +236,7 @@ function getCodeBlock(key, value) {
             )}))${awaitVariable ? `.then((obj) => { ${actionVariable} = obj })` : ``}
         })` : `
         ${codeBlock}`}
-        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(handleCircularJSON(" + actionVariable + "))"})
+        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(handleCircularJSON(" + actionVariable + "),null,2)"})
     });`);
                 }
             }
@@ -306,7 +306,7 @@ function getCodeBlockWithoutGrouping(key, value) {
             )}))${awaitVariable ? `.then((obj) => { ${actionVariable} = obj })` : ``}
         })` : `
         ${codeBlock}`}
-        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(handleCircularJSON(" + actionVariable + "))"})
+        ${LOG}("${actionVariable} => " + ${actionVariable.includes('validateObject') ? actionVariable : "JSON.stringify(handleCircularJSON(" + actionVariable + "),null,2)"})
     });`);
                 }
             }
