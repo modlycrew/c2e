@@ -1,11 +1,12 @@
 import Ajv from "ajv";
+import addFormats from "ajv-formats";
 export function loadAjv() {
     const ajv = new Ajv({
         $data: true,
         allErrors: true,
         allowMatchingProperties: true,
     });
-    require('ajv-formats')(ajv);
+    addFormats(ajv);
     require('ajv-merge-patch')(ajv);
     ajv.addKeyword("$version");
     //add ajv-keywords if needing more complex tests ref https://github.com/ajv-validator/ajv-keywords#keywords

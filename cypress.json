@@ -1,4 +1,0 @@
-{
-  "integrationFolder": "",
-  "testFiles": ["e2e/**/*.spec.js", "src/**/*.test.js", "examples/**/*.spec.js"]
-}
