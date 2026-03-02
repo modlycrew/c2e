@@ -1,6 +1,6 @@
 {
   "name": "@modlycrew/c2e",
-  "version": "0.0.2.1",
+  "version": "0.4.0",
   "description": "c2e is a Mocha/Chai & Cypress.io test scaffolding helper to produce end-to-end test files mapping organizational (c)apabilties to(2) (e)xpected outcomes / criteria (i.e. expect(A).to.equal(B), cy.get().contains(), etc)",
   "main": "c2e.js",
   "bin": {
@@ -35,9 +35,15 @@
     "ajv": "^8.11.2",
     "ajv-formats": "^2.1.1",
     "ajv-merge-patch": "^5.0.1",
+    "chai": "^4.3.7",
     "chalk": "^4.1.2",
     "clear": "^0.1.0",
+    "cypress": "^12.6.0",
     "figlet": "^1.5.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "yargs": "13.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.30.0"
   }
 }
